@@ -1,0 +1,25 @@
+const { merge } = require('webpack-merge');
+const common = require('./webpack.common');
+module.exports = merge(common,{
+  mode: 'development',
+  devtool: 'inline-source-map',
+  devServer:{
+    // where to serve the files from
+    contentBase: './dist'
+  },
+  module:{
+    rules: [
+        {
+            test:/\.scss$/i,
+            use: [
+                // ordering of loaders is important
+                {loader: 'css-loader', options: {sourceMap: true}},
+                {loader: 'postcss-loader', options: {sourceMap: true}},
+                {loader: 'sass-loader', options: {sourceMap: true}},
+                'postcss-loader',
+                'sass-loader'
+            ]
+        }
+    ]
+  },
+})
